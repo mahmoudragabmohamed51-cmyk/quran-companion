@@ -23,25 +23,28 @@
  </nav>
  <section class="view active" id="home">
   <div class="grid">
-   <div class="card"><div class="eyebrow">ابدأ الآن</div><h3>جلسة حفظ جديدة</h3><p class="muted">اختر السورة وسجّل الآيات التي تعمل عليها. يمكنك إضافة نص الآيات من مصحف موثوق.</p><button data-go="memorize">ابدأ الحفظ</button></div>
-   <div class="card"><div class="eyebrow">تثبيت الحفظ</div><h3>اختبر نفسك</h3><p class="muted">تدرّب على إكمال الآيات باستخدام النص الذي أضفته بنفسك.</p><button data-go="quiz">ابدأ الاختبار</button></div>
+   <div class="card"><div class="eyebrow">ابدأ الآن</div><h3>جلسة حفظ جديدة</h3><p class="muted">اختر السورة وسجّل الآيات التي تعمل عليها. اختر الآيات مباشرة من المصحف الإلكتروني.</p><button data-go="memorize">ابدأ الحفظ</button></div>
+   <div class="card"><div class="eyebrow">تثبيت الحفظ</div><h3>اختبر نفسك</h3><p class="muted">تدرّب على اختيار الآية التالية من خيارات إلكترونية.</p><button data-go="quiz">ابدأ الاختبار</button></div>
    <div class="card"><div class="eyebrow">لا تنسَ المراجعة</div><h3>القليل الدائم خير</h3><p class="muted">راجع ما سبق حفظه، وسجّل جلسات المراجعة لمتابعة تقدمك.</p><button data-go="review">افتح المراجعة</button></div>
    <div class="card"><div class="eyebrow">رفقًا بنفسك</div><h3>التقدم أهم من الكمال</h3><p class="muted">النسيان جزء من التعلم. كرر بهدوء، واستعن بمعلم متقن عند الحاجة.</p></div>
   </div>
  </section>
  <section class="view" id="memorize">
-  <div class="card"><div class="eyebrow">الحفظ والتسميع</div><h3>أضف آيات خطتك</h3><p class="muted">لضمان دقة النص القرآني، انسخه من مصحف موثوق ومضبوط. لا نعرض هنا نصًا كاملًا غير مُراجع.</p>
-   <label>اسم السورة</label><input class="field" id="surahName" placeholder="مثال: سورة الملك">
-   <label>رقم الآيات أو النطاق</label><input class="field" id="verseRange" placeholder="مثال: 1–5">
-   <label>نص الآيات</label><textarea class="field" id="verseText" placeholder="الصق نص الآيات من مصحف موثوق هنا..."></textarea>
-   <div class="actions"><button id="saveLesson">حفظ خطة الآيات</button><button class="soft" id="startRecord">🎙️ بدء التسجيل</button><button class="soft" id="stopRecord" disabled>إيقاف التسجيل</button></div><div id="recordStatus" class="muted"></div>
-   <div class="notice">التسجيل الصوتي هنا للتدريب الشخصي فقط. لا يصدر حكمًا آليًا على صحة التلاوة أو المخارج أو التجويد.</div>
+  <div class="card"><div class="eyebrow">المصحف الإلكتروني</div><h3>اختر السورة والآيات</h3>
+   <p class="muted">يعرض التطبيق نص القرآن مباشرة من واجهة AlQuran Cloud، برواية النص العثماني المتاحة في المصدر. لا تحتاج إلى لصق أو كتابة أي آية.</p>
+   <label>السورة</label><select class="field" id="surahSelect"><option value="">جارٍ تحميل السور...</option></select>
+   <div class="grid"><div><label>من آية</label><select class="field" id="startAyah"></select></div><div><label>إلى آية</label><select class="field" id="endAyah"></select></div></div>
+   <div class="actions"><button id="loadSurah">عرض الآيات</button><button id="saveLesson" disabled>إضافة إلى خططي</button></div>
+   <div id="quranStatus" class="muted" style="margin-top:10px">اختر السورة ثم اضغط «عرض الآيات».</div>
+   <div id="quranDisplay" class="versebox hide" style="margin-top:12px"></div>
+   <div class="actions"><button class="soft" id="startRecord">🎙️ بدء التسميع</button><button class="soft" id="stopRecord" disabled>إيقاف التسجيل</button></div><div id="recordStatus" class="muted"></div>
+   <div class="notice">التسجيل الصوتي للتدريب الشخصي فقط، ولا يصدر حكمًا آليًا على صحة التلاوة أو التجويد. يُرجى مراجعة المصحف المعتمد عند اختلاف الرسم أو الضبط.</div>
   </div>
   <div class="card" style="margin-top:13px"><h3>خطط الحفظ المحفوظة</h3><div id="lessonList" class="muted">لم تضف خططًا بعد.</div></div>
  </section>
  <section class="view" id="quiz">
-  <div class="card"><div class="eyebrow">اختبار إكمال الآية</div><h3>اختبر تذكرك</h3><p class="muted">سيختار التطبيق خطة محفوظة ويعرض جزءًا من النص لتكمل الباقي. هذا تمرين تذكّر وليس تصحيحًا للتلاوة.</p>
-  <button id="newQuiz">سؤال عشوائي</button><div id="quizArea" class="versebox hide" style="margin-top:14px"><div class="muted" id="quizSource"></div><div class="ayah" id="quizPrompt"></div><textarea class="field" id="quizAnswer" placeholder="اكتب تكملة الآية من حفظك..."></textarea><div class="actions"><button id="checkQuiz">تحقق من الإجابة</button><button class="soft" id="showAnswer">عرض النص المحفوظ</button></div><div id="quizFeedback" class="muted"></div></div>
+  <div class="card"><div class="eyebrow">اختبار إلكتروني</div><h3>اختر تكملة الآية الصحيحة</h3><p class="muted">اختر إجابتك من الخيارات الظاهرة. لا توجد كتابة يدوية، ويُبنى السؤال على الآيات المحفوظة في خططك.</p>
+  <button id="newQuiz">سؤال جديد</button><div id="quizArea" class="versebox hide" style="margin-top:14px"><div class="muted" id="quizSource"></div><div class="ayah" id="quizPrompt"></div><div id="quizOptions" class="actions" style="display:grid;grid-template-columns:1fr;gap:8px"></div><div id="quizFeedback" class="muted"></div></div>
   </div>
  </section>
  <section class="view" id="review">
@@ -65,6 +68,7 @@
 </main>
 <script>
 const KEY='quran-companion-v1';
+const QURAN_API='https://api.alquran.cloud/v1';let catalog=[],loadedSurah=null,loadedAyahs=[];
 const defaultData={lessons:[],reviews:[],activities:[],settings:{reminder:true,time:'08:00'},streak:0,lastActive:''};
 let data;try{data={...defaultData,...JSON.parse(localStorage.getItem(KEY)||'{}')};data.settings={...defaultData.settings,...(data.settings||{})}}catch(e){data=structuredClone(defaultData)}
 const $=id=>document.getElementById(id);
@@ -79,12 +83,13 @@ $('todayDate').textContent=new Intl.DateTimeFormat('ar-EG',{weekday:'long',year:
 const messages=['ابدأ يومك بآية، واجعل القرآن رفيق قلبك.','لا تقارن رحلتك بأحد؛ آية بإتقان خير من كثير بلا تثبيت.','إن نسيت فلا تحزن، عُد وكرر، فكل مراجعة تقرّبك.','اجعل لك اليوم نصيبًا ولو قليلًا من كلام الله.','بارك الله في سعيك؛ الثبات أجمل من السرعة.','كل مرة تفتح فيها المصحف هي خطوة تستحق الامتنان.','خذ نفسًا، واستعن بالله، وابدأ من جديد.','اللهم افتح عليك فهم كتابك وحسن تلاوته.'];
 function daily(){const n=Math.floor(Date.now()/86400000)%messages.length;$('dailyMessage').textContent=messages[n]}
 daily();$('newMessage').onclick=()=>{$('dailyMessage').textContent=messages[Math.floor(Math.random()*messages.length)]};
-$('saveLesson').onclick=()=>{const surah=$('surahName').value.trim(),range=$('verseRange').value.trim(),text=$('verseText').value.trim();if(!surah||!text){alert('اكتب اسم السورة ونص الآيات أولًا.');return}data.lessons.unshift({surah,range,text,date:day()});activity('حفظ','إضافة خطة حفظ: '+surah);save();$('verseText').value='';alert('تم حفظ خطتك على هذا الجهاز.');};
+async function initQuranCatalog(){try{const r=await fetch(QURAN_API+'/surah');if(!r.ok)throw Error('network');const j=await r.json();catalog=j.data||[];$('surahSelect').innerHTML='<option value="">اختر السورة</option>'+catalog.map(s=>'<option value="'+s.number+'">'+s.number+'. '+esc(s.name)+' — '+esc(s.englishName)+'</option>').join('');$('quranStatus').textContent='تم تحميل فهرس السور. اختر سورة للبدء.';$('surahSelect').onchange=()=>{const s=catalog.find(x=>x.number===+$('surahSelect').value);if(!s)return;const opts=Array.from({length:s.numberOfAyahs},(_,i)=>'<option value="'+(i+1)+'">'+(i+1)+'</option>').join('');$('startAyah').innerHTML=opts;$('endAyah').innerHTML=opts;$('endAyah').value=s.number;$('quranDisplay').classList.add('hide');$('saveLesson').disabled=true;};}catch(e){$('quranStatus').textContent='تعذر تحميل فهرس القرآن. تحقق من الاتصال بالإنترنت ثم أعد تحميل الصفحة.';}}
+$('loadSurah').onclick=async()=>{const n=+$('surahSelect').value,s=catalog.find(x=>x.number===n),from=+$('startAyah').value,to=+$('endAyah').value;if(!s){alert('اختر السورة أولًا.');return}if(!from||to<from){alert('اختر نطاق آيات صحيحًا.');return}$('quranStatus').textContent='جارٍ تحميل الآيات من المصدر...';$('saveLesson').disabled=true;try{const r=await fetch(QURAN_API+'/surah/'+n+'/quran-uthmani');if(!r.ok)throw Error('fetch');const j=await r.json();loadedSurah=s;loadedAyahs=j.data.ayahs.filter(a=>a.numberInSurah>=from&&a.numberInSurah<=to);$('quranDisplay').innerHTML=loadedAyahs.map(a=>'<div class="ayah">'+esc(a.text)+' <span class="tag">'+a.numberInSurah+'</span></div>').join('');$('quranDisplay').classList.remove('hide');$('quranStatus').textContent='تم تحميل '+loadedAyahs.length+' آية من سورة '+s.name+' — المصدر: AlQuran Cloud.';$('saveLesson').disabled=!loadedAyahs.length;}catch(e){$('quranStatus').textContent='لم نتمكن من جلب الآيات الآن. حاول مرة أخرى.';}};
+$('saveLesson').onclick=()=>{if(!loadedSurah||!loadedAyahs.length)return;const from=loadedAyahs[0].numberInSurah,to=loadedAyahs[loadedAyahs.length-1].numberInSurah;data.lessons.unshift({surah:loadedSurah.name,range:from+'–'+to,text:loadedAyahs.map(a=>a.text).join(' '),ayahs:loadedAyahs.map(a=>({number:a.numberInSurah,text:a.text})),surahNumber:loadedSurah.number,date:day()});activity('حفظ','إضافة خطة حفظ: '+loadedSurah.name);save();alert('تمت إضافة الآيات من المصحف الإلكتروني إلى خططك.');};
 $('lessonList').onclick=e=>{const b=e.target.closest('[data-lesson]');if(!b)return;const l=data.lessons[+b.dataset.lesson];$('surahName').value=l.surah;$('verseRange').value=l.range;$('verseText').value=l.text;tab('memorize')};
 $('saveReview').onclick=()=>{const surah=$('reviewSurah').value.trim();data.reviews.unshift({surah,notes:$('reviewNotes').value.trim(),date:day()});activity('مراجعة','جلسة مراجعة: '+(surah||'عامة'));save();$('reviewSurah').value='';$('reviewNotes').value='';alert('تقبل الله منك، تم تسجيل المراجعة.');};
-let current=null,cut=0;function newQuiz(){if(!data.lessons.length){alert('أضف خطة حفظ أولًا من صفحة الحفظ والتسميع.');return}current=data.lessons[Math.floor(Math.random()*data.lessons.length)];const words=current.text.split(/\s+/).filter(Boolean);cut=Math.max(1,Math.floor(words.length*.55));$('quizSource').textContent=current.surah+' — '+(current.range||'');$('quizPrompt').textContent=words.slice(0,cut).join(' ')+' …';$('quizAnswer').value='';$('quizFeedback').textContent='';$('quizArea').classList.remove('hide')}
-$('newQuiz').onclick=newQuiz;$('checkQuiz').onclick=()=>{if(!current)return;const expected=current.text.split(/\s+/).filter(Boolean).slice(cut).join(' ');const answer=$('quizAnswer').value.trim().replace(/[\s،؛,.!?؟]/g,'');const target=expected.replace(/[\s،؛,.!?؟]/g,'');$('quizFeedback').textContent=answer===target?'أحسنت! طابق النص المدخل تمامًا. 🌟':'راجع النص المعروض، ثم حاول مرة أخرى. التقييم هنا نصي وليس حكمًا على التلاوة.';$('quizFeedback').className='notice '+(answer===target?'success':'')};
-$('showAnswer').onclick=()=>{if(current)$('quizFeedback').textContent='النص المحفوظ: '+current.text};
+let currentQuestion=null;function newQuiz(){const pool=data.lessons.filter(l=>l.ayahs&&l.ayahs.length>=2);if(!pool.length){alert('أضف خطة تحتوي على آيتين أو أكثر من المصحف الإلكتروني أولًا.');return}const lesson=pool[Math.floor(Math.random()*pool.length)],idx=Math.floor(Math.random()*(lesson.ayahs.length-1)),correct=lesson.ayahs[idx+1],prefix=lesson.ayahs[idx].text;const all=lesson.ayahs.filter((a,i)=>i!==idx+1).map(a=>a.text);const distractors=[];while(distractors.length<3&&all.length){const k=Math.floor(Math.random()*all.length),v=all.splice(k,1)[0];if(v.text!==correct.text&&!distractors.some(x=>x.text===v.text))distractors.push(v)}const options=[correct,...distractors].sort(()=>Math.random()-.5);currentQuestion={correct,lesson};$('quizSource').textContent=lesson.surah+' — الآية '+lesson.ayahs[idx].number+' ثم التالية';$('quizPrompt').textContent=prefix+' ۞';$('quizOptions').innerHTML=options.map((o,i)=>'<button class="soft" data-answer="'+i+'" style="white-space:normal;text-align:right;line-height:1.9">'+esc(o.text)+'</button>').join('');$('quizFeedback').textContent='';$('quizArea').classList.remove('hide');$('quizOptions').onclick=e=>{const b=e.target.closest('[data-answer]');if(!b)return;const chosen=options[+b.dataset.answer];const ok=chosen.text===correct.text;$('quizFeedback').textContent=ok?'إجابة صحيحة، أحسنت! 🌟':'ليست هذه الآية التالية. راجع الآيات وحاول مرة أخرى.';$('quizFeedback').className='notice '+(ok?'success':'');[...$('quizOptions').querySelectorAll('button')].forEach(x=>x.disabled=true);};}
+$('newQuiz').onclick=newQuiz;
 $('saveSettings').onclick=()=>{data.settings={reminder:$('reminderOn').checked,time:$('reminderTime').value||'08:00'};save();alert('تم حفظ إعدادات التذكير.');scheduleLocalReminder()};
 $('enableNotify').onclick=async()=>{if(!('Notification'in window)){alert('متصفحك لا يدعم إشعارات الويب.');return}const p=await Notification.requestPermission();if(p==='granted'){new Notification('Quran Companion',{body:'حان وقت وردك القرآني. ابدأ ولو بآية 🌿'});alert('تم السماح بإشعارات المتصفح. افتح الإعدادات لضبط وقت التذكير.')}else alert('لم يتم منح إذن الإشعارات. يمكنك تفعيله من إعدادات المتصفح.');};
 function scheduleLocalReminder(){if(!data.settings.reminder||!('Notification'in window)||Notification.permission!=='granted')return;const [h,m]=data.settings.time.split(':').map(Number);const now=new Date(),when=new Date();when.setHours(h,m,0,0);if(when<=now)return;setTimeout(()=>{if(data.settings.reminder)new Notification('Quran Companion',{body:'حان وقت الحفظ أو المراجعة. القرآن رفيق يومك 🤍'})},when-now)}
@@ -92,6 +97,6 @@ let recorder=null,stream=null,chunks=[];$('startRecord').onclick=async()=>{try{i
 $('stopRecord').onclick=()=>{if(recorder&&recorder.state!=='inactive')recorder.stop();$('startRecord').disabled=false;$('stopRecord').disabled=true};
 $('clearData').onclick=()=>{if(confirm('هل أنت متأكد من مسح جميع الخطط وسجلات المراجعة من هذا الجهاز؟')){localStorage.removeItem(KEY);data=JSON.parse(JSON.stringify(defaultData));render();daily()}};
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('service-worker.js').catch(()=>{});
-render();scheduleLocalReminder();
+render();initQuranCatalog();scheduleLocalReminder();
 </script>
 </body></html>
